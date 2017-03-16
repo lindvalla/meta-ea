@@ -1,0 +1,432 @@
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index cdaaaa4..120c12f 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -333,7 +333,9 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
+ 	imx6q-wandboard.dtb \
+ 	imx6q-wandboard-revb1.dtb \
+ 	imx6qea-com-kit.dtb \
+-	imx6dlea-com-kit.dtb
++	imx6qea-com-kit-mfg.dtb \
++	imx6dlea-com-kit.dtb \
++	imx6dlea-com-kit-mfg.dtb
+ dtb-$(CONFIG_SOC_IMX6SL) += \
+ 	imx6sl-evk.dtb \
+ 	imx6sl-evk-btwifi.dtb \
+@@ -362,6 +364,7 @@ dtb-$(CONFIG_SOC_IMX6SX) += \
+ 	imx6sxea-com-kit.dtb \
+ 	imx6sxea-com-kit-m4.dtb \
+ 	imx6sxea-com-kit-lvds.dtb \
++	imx6sxea-com-kit-mfg.dtb \
+ 	imx6sxea-com-kit-rgb.dtb
+ dtb-$(CONFIG_SOC_IMX6UL) += \
+ 	imx6ul-14x14-ddr3-arm2.dtb \
+@@ -381,6 +384,7 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
+ 	imx6ul-9x9-evk-csi.dtb \
+ 	imx6ul-9x9-evk-ldo.dtb \
+ 	imx6ulea-com-kit.dtb \
++	imx6ulea-com-kit-mfg.dtb \
+ 	imx6ulea-com-kit-rf.dtb
+ dtb-$(CONFIG_SOC_IMX7D) += \
+ 	imx7d-12x12-lpddr3-arm2.dtb \
+@@ -412,7 +416,9 @@ dtb-$(CONFIG_SOC_IMX7D) += \
+ 	imx7dea-ucom-kit.dtb \
+ 	imx7dea-ucom-kit-lvds.dtb \
+ 	imx7dea-ucom-kit-m4.dtb \
++	imx7dea-ucom-kit-mfg.dtb \
+ 	imx7dea-com-kit.dtb \
++	imx7dea-com-kit-mfg.dtb \
+ 	imx7dea-com-kit-m4.dtb
+ dtb-$(CONFIG_SOC_LS1021A) += \
+ 	ls1021a-qds.dtb \
+diff --git a/arch/arm/boot/dts/imx6dlea-com-kit-mfg.dts b/arch/arm/boot/dts/imx6dlea-com-kit-mfg.dts
+new file mode 100644
+index 0000000..4cb069a
+--- /dev/null
++++ b/arch/arm/boot/dts/imx6dlea-com-kit-mfg.dts
+@@ -0,0 +1,93 @@
++/*
++ * Copyright 2012 Freescale Semiconductor, Inc.
++ * Copyright 2011 Linaro Ltd.
++ *
++ * The code contained herein is licensed under the GNU General Public
++ * License. You may obtain a copy of the GNU General Public License
++ * Version 2 or later at the following locations:
++ *
++ * http://www.opensource.org/licenses/gpl-license.html
++ * http://www.gnu.org/copyleft/gpl.html
++ */
++
++#include "imx6dlea-com-kit.dts"
++
++/*
++ * The purpose of this device tree is to enable all display interfaces and set up
++ * to use the Hannstar 7" RGB display with AR1021 touch controller and the Freescale 10" LVDS
++ * displays with eGalax touch controller and then disable all other touch controllers.
++ * HDMI should also be enabled but it does not have a touch controller.
++ */
++
++&mxcfb1 {
++	status = "okay";
++};
++&mxcfb2 {
++	status = "okay";
++};
++&mxcfb3 {
++	status = "okay";
++};
++&mxcfb4 {
++	status = "okay";
++};
++
++&i2c1 {
++	ar1021_rgb@4d {
++		status = "okay";
++	};
++	ar1021_lvds0@4d {
++		status = "disabled";
++	};
++	egalax_ts_rgb@04 {
++		status = "disabled";
++	};
++	egalax_ts_lvds0@04 {
++		status = "okay";
++	};
++	edt-ft5x06_rgb@38 {
++		status = "disabled";
++	};
++	edt-ft5x06_lvds0@38 {
++		status = "disabled";
++	};
++	ilitek_aim_rgb@41 {
++		status = "disabled";
++	};
++	ilitek_aim_lvds0@41 {
++		status = "disabled";
++	};
++        mxt1664_ts_rgb@4b {
++                status = "disabled";
++        };
++        mxt1664_ts_lvds0@4b {
++                status = "disabled";
++        };
++	sitronix_rgb@55 {
++		status = "disabled";
++	};
++	sitronix_lvds0@55 {
++		status = "disabled";
++	};
++};
++
++&i2c2 {
++	ar1021_lvds1@4d {
++		status = "disabled";
++	};
++	egalax_ts_lvds1@04 {
++		status = "okay";
++	};
++	edt-ft5x06_lvds1@38 {
++		status = "disabled";
++	};
++	ilitek_aim_lvds1@41 {
++		status = "disabled";
++	};
++        mxt1664_ts_lvds1@4b {
++                status = "disabled";
++        };
++	sitronix_lvds1@55 {
++		status = "disabled";
++	};
++};
+diff --git a/arch/arm/boot/dts/imx6qea-com-kit-mfg.dts b/arch/arm/boot/dts/imx6qea-com-kit-mfg.dts
+new file mode 100644
+index 0000000..a6d129e
+--- /dev/null
++++ b/arch/arm/boot/dts/imx6qea-com-kit-mfg.dts
+@@ -0,0 +1,93 @@
++/*
++ * Copyright 2012 Freescale Semiconductor, Inc.
++ * Copyright 2011 Linaro Ltd.
++ *
++ * The code contained herein is licensed under the GNU General Public
++ * License. You may obtain a copy of the GNU General Public License
++ * Version 2 or later at the following locations:
++ *
++ * http://www.opensource.org/licenses/gpl-license.html
++ * http://www.gnu.org/copyleft/gpl.html
++ */
++
++#include "imx6qea-com-kit.dts"
++
++/*
++ * The purpose of this device tree is to enable all display interfaces and set up
++ * to use the Hannstar 7" RGB display with AR1021 touch controller and the Freescale 10" LVDS
++ * displays with eGalax touch controller and then disable all other touch controllers.
++ * HDMI should also be enabled but it does not have a touch controller.
++ */
++
++&mxcfb1 {
++	status = "okay";
++};
++&mxcfb2 {
++	status = "okay";
++};
++&mxcfb3 {
++	status = "okay";
++};
++&mxcfb4 {
++	status = "okay";
++};
++
++&i2c1 {
++	ar1021_rgb@4d {
++		status = "okay";
++	};
++	ar1021_lvds0@4d {
++		status = "disabled";
++	};
++	egalax_ts_rgb@04 {
++		status = "disabled";
++	};
++	egalax_ts_lvds0@04 {
++		status = "okay";
++	};
++	edt-ft5x06_rgb@38 {
++		status = "disabled";
++	};
++	edt-ft5x06_lvds0@38 {
++		status = "disabled";
++	};
++	ilitek_aim_rgb@41 {
++		status = "disabled";
++	};
++	ilitek_aim_lvds0@41 {
++		status = "disabled";
++	};
++        mxt1664_ts_rgb@4b {
++                status = "disabled";
++        };
++        mxt1664_ts_lvds0@4b {
++                status = "disabled";
++        };
++	sitronix_rgb@55 {
++		status = "disabled";
++	};
++	sitronix_lvds0@55 {
++		status = "disabled";
++	};
++};
++
++&i2c2 {
++	ar1021_lvds1@4d {
++		status = "disabled";
++	};
++	egalax_ts_lvds1@04 {
++		status = "okay";
++	};
++	edt-ft5x06_lvds1@38 {
++		status = "disabled";
++	};
++	ilitek_aim_lvds1@41 {
++		status = "disabled";
++	};
++        mxt1664_ts_lvds1@4b {
++                status = "disabled";
++        };
++	sitronix_lvds1@55 {
++		status = "disabled";
++	};
++};
+diff --git a/arch/arm/boot/dts/imx6sxea-com-kit-mfg.dts b/arch/arm/boot/dts/imx6sxea-com-kit-mfg.dts
+new file mode 100644
+index 0000000..624570b
+--- /dev/null
++++ b/arch/arm/boot/dts/imx6sxea-com-kit-mfg.dts
+@@ -0,0 +1,55 @@
++/*
++ * Copyright (C) 2014-2015 Freescale Semiconductor, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include "imx6sxea-com-kit.dts"
++
++/*
++ * The purpose of this device tree is to enable all display interfaces and set up
++ * to use the Hannstar 7" RGB display with AR1021 touch controller and the Freescale 10" LVDS
++ * display with eGalax touch controller and then disable all other touch controllers.
++ */
++
++&i2c1 {
++	ar1021_rgb@4d {
++		status = "okay";
++	};
++	ar1021_lvds0@4d {
++		status = "disabled";
++	};
++	egalax_ts_rgb@04 {
++		status = "disabled";
++	};
++	egalax_ts_lvds0@04 {
++		status = "okay";
++	};
++	edt-ft5x06_rgb@38 {
++		status = "disabled";
++	};
++	edt-ft5x06_lvds0@38 {
++		status = "disabled";
++	};
++	ilitek_aim_rgb@41 {
++		status = "disabled";
++	};
++	ilitek_aim_lvds0@41 {
++		status = "disabled";
++	};
++	mxt1664_ts_rgb@4b {
++		status = "disabled";
++	};
++	mxt1664_ts_lvds0@4b {
++		status = "disabled";
++	};
++	sitronix_rgb@55 {
++		status = "disabled";
++	};
++	sitronix_lvds0@55 {
++		status = "disabled";
++	};
++};
++
+diff --git a/arch/arm/boot/dts/imx6ulea-com-kit-mfg.dts b/arch/arm/boot/dts/imx6ulea-com-kit-mfg.dts
+new file mode 100644
+index 0000000..cfab0f8
+--- /dev/null
++++ b/arch/arm/boot/dts/imx6ulea-com-kit-mfg.dts
+@@ -0,0 +1,36 @@
++/*
++ * Copyright (C) 2015 Freescale Semiconductor, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++ 
++#include "imx6ulea-com-kit.dts"
++
++/*
++ * The purpose of this device tree is to enable all display interfaces and set up
++ * to use the Hannstar 7" RGB display with AR1021 touch controller and disable all
++ * other touch controllers.
++ */
++
++&i2c1 {
++	ar1021_rgb@4d {
++		status = "okay";
++	};
++	egalax_ts_rgb@04 {
++		status = "disabled";
++	};
++	edt-ft5x06_rgb@38 {
++		status = "disabled";
++	};
++	ilitek_aim_rgb@41 {
++		status = "disabled";
++	};
++	mxt1664_ts_rgb@4b {
++		status = "disabled";
++	};
++	sitronix_rgb@55 {
++		status = "disabled";
++	};
++};
+diff --git a/arch/arm/boot/dts/imx7dea-com-kit-mfg.dts b/arch/arm/boot/dts/imx7dea-com-kit-mfg.dts
+new file mode 100644
+index 0000000..1a20af6
+--- /dev/null
++++ b/arch/arm/boot/dts/imx7dea-com-kit-mfg.dts
+@@ -0,0 +1,42 @@
++/*
++ * Copyright (C) 2015 Freescale Semiconductor, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include "imx7dea-com-kit.dts"
++
++/*
++ * The purpose of this device tree is to enable all display interfaces and set up
++ * to use the Hannstar 7" RGB display with AR1021 touch controller and disable all
++ * other touch controllers.
++ */
++
++&i2c1 {
++        at24@55 {
++                compatible = "at,24c64";
++                pagesize = <32>;
++                reg = <0x55>;
++        };
++
++        ar1021_rgb@4d {
++		status = "okay";
++        };
++        egalax_ts_rgb@04 {
++                status = "disabled";
++        };
++        edt-ft5x06_rgb@38 {
++                status = "disabled";
++        };
++        ilitek_aim_rgb@41 {
++                status = "disabled";
++        };
++        mxt1664_ts_rgb@4b {
++                status = "disabled";
++        };
++        sitronix_rgb@55 {
++                status = "disabled";
++        };
++};
+diff --git a/arch/arm/boot/dts/imx7dea-ucom-kit-mfg.dts b/arch/arm/boot/dts/imx7dea-ucom-kit-mfg.dts
+new file mode 100644
+index 0000000..7d4bd88
+--- /dev/null
++++ b/arch/arm/boot/dts/imx7dea-ucom-kit-mfg.dts
+@@ -0,0 +1,36 @@
++/*
++ * Copyright (C) 2015 Freescale Semiconductor, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include "imx7dea-ucom-kit.dts"
++
++/*
++ * The purpose of this device tree is to enable all display interfaces and set up
++ * to use the Hannstar 7" RGB display with AR1021 touch controller and disable all
++ * other touch controllers.
++ */
++
++&i2c1 {
++        ar1021_rgb {
++                status = "okay";
++        };
++        egalax_ts_rgb {
++                status = "disabled";
++        };
++        edt-ft5x06_rgb {
++                status = "disabled";
++        };
++        ilitek_aim_rgb {
++		status = "disabled";
++        };
++        mxt1664_ts_rgb@4b {
++                status = "disabled";
++        };
++        sitronix_rgb {
++		status = "disabled";
++        };
++};
